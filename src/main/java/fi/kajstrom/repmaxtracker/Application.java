@@ -32,5 +32,7 @@ public class Application implements CommandLineRunner {
             "exercise_id IDENTITY, name VARCHAR(100))");
 
         jdbcTemplate.execute("INSERT INTO exercises(name) VALUES('Deadlift')");
+        jdbcTemplate.execute("INSERT INTO exercises(name) VALUES('Back Squat')");
+        jdbcTemplate.execute("INSERT INTO exercises(name) VALUES('Bench Press')");
     }
 }
