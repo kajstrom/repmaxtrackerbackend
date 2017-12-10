@@ -17,18 +17,7 @@ import java.net.URI;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class GreetingTest {
-
-    @LocalServerPort
-    private int port;
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
-    private String makeUrl(String queryPath) {
-        return "http://localhost:" + port + queryPath;
-    }
-
+public class GreetingTest extends ApiTest {
     @Test
     public void addGreeting() throws Exception {
         HttpEntity<AddGreeting> request = new HttpEntity<>(new AddGreeting("Kaj"));

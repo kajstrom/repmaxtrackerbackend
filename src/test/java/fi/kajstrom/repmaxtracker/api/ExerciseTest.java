@@ -19,17 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ExerciseTest {
-    @LocalServerPort
-    private int port;
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
-    private String makeUrl(String queryPath) {
-        return "http://localhost:" + port + queryPath;
-    }
-
+public class ExerciseTest extends ApiTest {
     @Test
     public void getExercisesReturnsListOfExercises() throws Exception {
         ResponseEntity<Exercise[]> responseEntity = restTemplate.getForEntity(makeUrl("/exercises"), Exercise[].class);
