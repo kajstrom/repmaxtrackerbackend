@@ -1,3 +1,3 @@
 # REST ENDPOINTS
 
-- GET /greetings returns list of exercise types
+- GET /exercises returns list of exercise types
