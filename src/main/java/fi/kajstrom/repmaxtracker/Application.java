@@ -44,6 +44,7 @@ public class Application implements CommandLineRunner {
             "set_id IDENTITY," +
             "user_id INT," +
             "exercise_id INT NOT NULL," +
+            "date_performed DATE NOT NULL, " +
             "weight DOUBLE NOT NULL," +
             "repetitions TINYINT NOT NULL, " +
             "estimated_1rm DOUBLE NOT NULL," +
