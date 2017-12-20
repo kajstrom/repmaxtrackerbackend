@@ -38,6 +38,16 @@ public class Application implements CommandLineRunner {
         jdbcTemplate.execute("INSERT INTO exercises(name) VALUES('Deadlift')");
         jdbcTemplate.execute("INSERT INTO exercises(name) VALUES('Back Squat')");
         jdbcTemplate.execute("INSERT INTO exercises(name) VALUES('Bench Press')");
+
+        jdbcTemplate.execute("DROP TABLE sets IF EXISTS");
+        jdbcTemplate.execute("CREATE TABLE sets(" +
+            "set_id IDENTITY," +
+            "user_id INT," +
+            "exercise_id INT NOT NULL," +
+            "weight DOUBLE NOT NULL," +
+            "repetitions TINYINT NOT NULL, " +
+            "estimated_1rm DOUBLE NOT NULL," +
+            "FOREIGN KEY(exercise_id) REFERENCES exercises(exercise_id))");
     }
 
     @Bean
