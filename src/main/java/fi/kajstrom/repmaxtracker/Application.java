@@ -27,10 +27,6 @@ public class Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info("Creating tables");
 
-        jdbcTemplate.execute("DROP TABLE greetings IF EXISTS");
-        jdbcTemplate.execute("CREATE TABLE greetings(" +
-            "id IDENTITY, greeting VARCHAR(255), created_at TIMESTAMP)");
-
         jdbcTemplate.execute("DROP TABLE exercises IF EXISTS");
         jdbcTemplate.execute("CREATE TABLE exercises(" +
             "exercise_id IDENTITY, name VARCHAR(100))");
