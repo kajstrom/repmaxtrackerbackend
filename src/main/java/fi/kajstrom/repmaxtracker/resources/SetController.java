@@ -29,7 +29,7 @@ public class SetController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> addSet(@RequestBody SetAdd set) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        String insertSQL = "INSERT INTO sets (exercise_id, user_id, date_performed, weight, repetitions, estimated_1rm) VALUES(?, ?, ?, ?, ?, ?)";
+        String insertSQL = "INSERT INTO sets (exercise_id, user_id, performed_on, weight, repetitions, estimated_1rm) VALUES(?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.update((connection) -> {
             PreparedStatement ps = connection.prepareStatement(insertSQL, new String[] {"set_id"});
