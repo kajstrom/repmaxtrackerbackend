@@ -8,15 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @RestController
 @RequestMapping("/sets")
@@ -51,6 +49,21 @@ public class SetController {
                 .buildAndExpand(keyHolder.getKey()).toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public @ResponseBody List<Set> getSets() {
+        return jdbcTemplate.query("SELECT * FROM sets", (rs, rowNum) -> {
+            return new Set(
+                    rs.getLong("set_id"),
+                    rs.getLong("exercise_id"),
+                    rs.getLong("user_id"),
+                    rs.getDate("performed_on"),
+                    rs.getDouble("weight"),
+                    rs.getInt("repetitions"),
+                    rs.getDouble("estimated_1rm")
+            );
+        });
     }
 
     /**
