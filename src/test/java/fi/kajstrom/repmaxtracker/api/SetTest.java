@@ -24,17 +24,23 @@ public class SetTest extends ApiTest {
         cal.set(Calendar.DAY_OF_MONTH, 21);
         Date performedOn = cal.getTime();
 
+        URI location = makeSetAddRequest(1, 1, performedOn, 100.0, 5);
+
+        assertThat(location).hasPath("/sets/1");
+    }
+
+    private URI makeSetAddRequest(long exerciseId, long userId, Date performedOn, Double weight, Integer reperations) {
         SetAdd set = new SetAdd(
-            1,
-            1,
-             performedOn,
-            100.0,
-            5
+                exerciseId,
+                userId,
+                performedOn,
+                weight,
+                reperations
         );
 
         HttpEntity<SetAdd> request = new HttpEntity<>(set);
         URI location = this.restTemplate.postForLocation(makeUrl("/sets"), request);
-        System.out.println(location);
-        assertThat(location).isNotNull();
+
+        return location;
     }
 }
