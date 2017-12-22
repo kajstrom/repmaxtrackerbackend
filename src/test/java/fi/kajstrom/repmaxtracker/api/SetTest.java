@@ -1,10 +1,13 @@
 package fi.kajstrom.repmaxtracker.api;
 
+import fi.kajstrom.repmaxtracker.resources.Set;
 import fi.kajstrom.repmaxtracker.resources.SetAdd;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URI;
@@ -15,9 +18,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class SetTest extends ApiTest {
     @Test
-    public void addSet() throws Exception {
+    public void postSet() throws Exception {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2017);
         cal.set(Calendar.MONTH, Calendar.DECEMBER);
@@ -27,6 +31,24 @@ public class SetTest extends ApiTest {
         URI location = makeSetAddRequest(1, 1, performedOn, 100.0, 5);
 
         assertThat(location).hasPath("/sets/1");
+    }
+
+    @Test
+    public void getSets() throws Exception {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2017);
+        cal.set(Calendar.MONTH, Calendar.DECEMBER);
+        cal.set(Calendar.DAY_OF_MONTH, 6);
+        Date performedOn = cal.getTime();
+
+        makeSetAddRequest(1, 1, performedOn, 100.0, 6);
+        makeSetAddRequest(2, 1, performedOn, 107.5, 5);
+
+        ResponseEntity<Set[]> responseEntity = restTemplate.getForEntity(makeUrl("/sets"), Set[].class);
+        Set[] sets = responseEntity.getBody();
+
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
+        assertThat(sets).hasSize(2);
     }
 
     private URI makeSetAddRequest(long exerciseId, long userId, Date performedOn, Double weight, Integer reperations) {
@@ -39,8 +61,6 @@ public class SetTest extends ApiTest {
         );
 
         HttpEntity<SetAdd> request = new HttpEntity<>(set);
-        URI location = this.restTemplate.postForLocation(makeUrl("/sets"), request);
-
-        return location;
+        return restTemplate.postForLocation(makeUrl("/sets"), request);
     }
 }
