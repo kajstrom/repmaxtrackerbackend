@@ -6,7 +6,6 @@
 
 ## TODO
 
-- Configure Travis CI
 - Add test for GET /sets
 - Move database handling and domain logic elsewhere from controllers.
 - Add endpoint GET /sets/{id} for retrieving a specific set.
