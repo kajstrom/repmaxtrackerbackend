@@ -1,7 +1,7 @@
 package fi.kajstrom.repmaxtracker.api;
 
-import fi.kajstrom.repmaxtracker.resources.Set;
-import fi.kajstrom.repmaxtracker.resources.SetAdd;
+import fi.kajstrom.repmaxtracker.resources.SetResource;
+import fi.kajstrom.repmaxtracker.resources.SetAddResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,15 +44,15 @@ public class SetTest extends ApiTest {
         makeSetAddRequest(1, 1, performedOn, 100.0, 6);
         makeSetAddRequest(2, 1, performedOn, 107.5, 5);
 
-        ResponseEntity<Set[]> responseEntity = restTemplate.getForEntity(makeUrl("/sets"), Set[].class);
-        Set[] sets = responseEntity.getBody();
+        ResponseEntity<SetResource[]> responseEntity = restTemplate.getForEntity(makeUrl("/sets"), SetResource[].class);
+        SetResource[] sets = responseEntity.getBody();
 
         assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
         assertThat(sets).hasSize(2);
     }
 
     private URI makeSetAddRequest(long exerciseId, long userId, Date performedOn, Double weight, Integer reperations) {
-        SetAdd set = new SetAdd(
+        SetAddResource set = new SetAddResource(
                 exerciseId,
                 userId,
                 performedOn,
@@ -60,7 +60,7 @@ public class SetTest extends ApiTest {
                 reperations
         );
 
-        HttpEntity<SetAdd> request = new HttpEntity<>(set);
+        HttpEntity<SetAddResource> request = new HttpEntity<>(set);
         return restTemplate.postForLocation(makeUrl("/sets"), request);
     }
 }

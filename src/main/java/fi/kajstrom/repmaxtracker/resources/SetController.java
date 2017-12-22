@@ -25,7 +25,7 @@ public class SetController {
     private JdbcTemplate jdbcTemplate;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> addSet(@RequestBody SetAdd set) {
+    public ResponseEntity<?> addSet(@RequestBody SetAddResource set) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         String insertSQL = "INSERT INTO sets (exercise_id, user_id, performed_on, weight, repetitions, estimated_1rm) VALUES(?, ?, ?, ?, ?, ?)";
 
@@ -52,9 +52,9 @@ public class SetController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody List<Set> getSets() {
+    public @ResponseBody List<SetResource> getSets() {
         return jdbcTemplate.query("SELECT * FROM sets", (rs, rowNum) -> {
-            return new Set(
+            return new SetResource(
                     rs.getLong("set_id"),
                     rs.getLong("exercise_id"),
                     rs.getLong("user_id"),

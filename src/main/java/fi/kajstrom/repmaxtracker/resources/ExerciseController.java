@@ -13,9 +13,9 @@ public class ExerciseController {
     JdbcTemplate jdbcTemplate;
     
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody List<Exercise> all() {
+    public @ResponseBody List<ExerciseResource> all() {
         return jdbcTemplate.query("SELECT * FROM exercises", (rs, rowNum) -> {
-           return new Exercise(
+           return new ExerciseResource(
                    rs.getLong("exercise_id"),
                    rs.getString("name")
            );

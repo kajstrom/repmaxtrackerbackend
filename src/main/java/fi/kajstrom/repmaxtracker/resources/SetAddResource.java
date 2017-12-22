@@ -2,14 +2,14 @@ package fi.kajstrom.repmaxtracker.resources;
 
 import java.util.Date;
 
-public class SetAdd {
+public class SetAddResource {
     private final long exerciseId;
     private final long userId;
     private final Date performedOn;
     private final Double weight;
     private final Integer repetitions;
 
-    public SetAdd(long exerciseId, long userId, Date performedOn, Double weight, Integer repetitions) {
+    public SetAddResource(long exerciseId, long userId, Date performedOn, Double weight, Integer repetitions) {
         this.exerciseId = exerciseId;
         this.userId = userId;
         this.performedOn = performedOn;
@@ -17,7 +17,7 @@ public class SetAdd {
         this.repetitions = repetitions;
     }
 
-    public SetAdd() {
+    public SetAddResource() {
         exerciseId = 0;
         userId = 0;
         performedOn = null;

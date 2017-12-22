@@ -1,15 +1,15 @@
 package fi.kajstrom.repmaxtracker.resources;
 
-public class Exercise {
+public class ExerciseResource {
     private final long id;
     private final String name;
 
-    public Exercise(long id, String name) {
+    public ExerciseResource(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Exercise() {
+    public ExerciseResource() {
         id = 0;
         name = "";
     }

@@ -1,6 +1,6 @@
 package fi.kajstrom.repmaxtracker.api;
 
-import fi.kajstrom.repmaxtracker.resources.Exercise;
+import fi.kajstrom.repmaxtracker.resources.ExerciseResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,8 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ExerciseTest extends ApiTest {
     @Test
     public void getExercisesReturnsListOfExercises() throws Exception {
-        ResponseEntity<Exercise[]> responseEntity = restTemplate.getForEntity(makeUrl("/exercises"), Exercise[].class);
-        Exercise[] exercises = responseEntity.getBody();
+        ResponseEntity<ExerciseResource[]> responseEntity = restTemplate.getForEntity(makeUrl("/exercises"), ExerciseResource[].class);
+        ExerciseResource[] exercises = responseEntity.getBody();
         HttpStatus statusCode = responseEntity.getStatusCode();
 
         assertThat(statusCode.is2xxSuccessful()).isTrue();
