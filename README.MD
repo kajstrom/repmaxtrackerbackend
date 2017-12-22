@@ -1,3 +1,5 @@
+[![Tracis CI](https://travis-ci.org/kajstrom/repmaxtrackerbackend.svg?branch=master)](https://travis-ci.org/kajstrom/repmaxtrackerbackend)
+
 # REST ENDPOINTS
 
 - GET /exercises returns list of exercise types
