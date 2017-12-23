@@ -1,4 +1,5 @@
 [![Tracis CI](https://travis-ci.org/kajstrom/repmaxtrackerbackend.svg?branch=master)](https://travis-ci.org/kajstrom/repmaxtrackerbackend)
+[![Coverage Status](https://coveralls.io/repos/github/kajstrom/repmaxtrackerbackend/badge.svg?branch=master)](https://coveralls.io/github/kajstrom/repmaxtrackerbackend?branch=master)
 
 # REST ENDPOINTS
 
