@@ -2,9 +2,11 @@ package fi.kajstrom.repmaxtracker.domain;
 
 import fi.kajstrom.repmaxtracker.infrastructure.database.SetGateway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component("setService")
 public class SetService {
 
     private SetGateway setGateway;

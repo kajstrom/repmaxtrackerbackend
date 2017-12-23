@@ -1,11 +1,13 @@
 package fi.kajstrom.repmaxtracker.resources;
 
 
+import fi.kajstrom.repmaxtracker.domain.SetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlRowSetResultSetExtractor;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.web.bind.annotation.*;
@@ -24,29 +26,22 @@ public class SetController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private SetService setService;
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> addSet(@RequestBody SetAddResource set) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        String insertSQL = "INSERT INTO sets (exercise_id, user_id, performed_on, weight, repetitions, estimated_1rm) VALUES(?, ?, ?, ?, ?, ?)";
-
-        jdbcTemplate.update((connection) -> {
-            PreparedStatement ps = connection.prepareStatement(insertSQL, new String[] {"set_id"});
-
-            Date performedOn = new Date(set.getPerformedOn().getTime());
-
-            ps.setLong(1, set.getExerciseId());
-            ps.setLong(2, set.getUserId());
-            ps.setDate(3, performedOn);
-            ps.setDouble(4, set.getWeight());
-            ps.setInt(5, set.getRepetitions());
-            ps.setDouble(6, estimated1Rm(set.getWeight(), set.getRepetitions()));
-
-            return ps;
-        }, keyHolder);
+        Integer setId = setService.addSet(
+                set.getExerciseId(),
+                set.getUserId(),
+                set.getPerformedOn(),
+                set.getWeight(),
+                set.getRepetitions()
+        );
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{set_id}")
-                .buildAndExpand(keyHolder.getKey()).toUri();
+                .buildAndExpand(setId).toUri();
 
         return ResponseEntity.created(location).build();
     }
