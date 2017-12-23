@@ -60,18 +60,4 @@ public class SetController {
             );
         });
     }
-
-    /**
-     * @todo Move this to a more proper location.
-     * @param weight
-     * @param reps
-     * @return
-     */
-    private Double estimated1Rm(Double weight, Integer reps) {
-        if (reps.equals(1)) {
-            return weight;
-        }
-
-        return (weight * reps * 0.0333) + weight;
-    }
 }
