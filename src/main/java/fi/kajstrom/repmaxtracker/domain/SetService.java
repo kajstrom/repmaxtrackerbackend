@@ -31,6 +31,10 @@ public class SetService {
     }
 
     private Double calculate1Rm(Double weight, Integer repetitions) {
+        if (repetitions.equals(1)) {
+            return weight;
+        }
+
         return (weight * repetitions * 0.0333) + weight;
     }
 }
