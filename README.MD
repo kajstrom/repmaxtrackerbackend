@@ -9,6 +9,5 @@
 
 ## TODO
 
-- Move database handling and domain logic elsewhere from controllers.
 - Add endpoint GET /sets/{id} for retrieving a specific set.
 - Add endpoint GET /user/{id}/sets for retrieving sets by user id.

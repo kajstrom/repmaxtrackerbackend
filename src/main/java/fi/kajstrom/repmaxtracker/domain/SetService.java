@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component("setService")
 public class SetService {
@@ -28,6 +29,10 @@ public class SetService {
                 .setEstimated1Rm(estimated1Rm);
 
         return setGateway.addSet(set);
+    }
+
+    public List<Set> allSets() {
+        return setGateway.allSets();
     }
 
     private Double calculate1Rm(Double weight, Integer repetitions) {

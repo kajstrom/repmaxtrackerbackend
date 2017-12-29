@@ -17,14 +17,13 @@ import java.net.URI;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/sets")
 public class SetController {
     private static final Logger log = LoggerFactory.getLogger(SetController.class);
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private SetService setService;
@@ -48,16 +47,19 @@ public class SetController {
 
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody List<SetResource> getSets() {
-        return jdbcTemplate.query("SELECT * FROM sets", (rs, rowNum) -> {
-            return new SetResource(
-                    rs.getLong("set_id"),
-                    rs.getLong("exercise_id"),
-                    rs.getLong("user_id"),
-                    rs.getDate("performed_on"),
-                    rs.getDouble("weight"),
-                    rs.getInt("repetitions"),
-                    rs.getDouble("estimated_1rm")
-            );
-        });
+        return setService.allSets()
+                .stream()
+                .map((set) -> {
+                    return new SetResource(
+                            set.getSetId(),
+                            set.getExerciseId(),
+                            set.getUserId(),
+                            set.getPerformedOn(),
+                            set.getWeight(),
+                            set.getRepetitions(),
+                            set.getEstimated1Rm()
+                    );
+                })
+                .collect(Collectors.toList());
     }
 }

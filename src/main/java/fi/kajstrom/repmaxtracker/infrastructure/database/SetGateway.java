@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @Component("setGateway")
 public class SetGateway {
@@ -39,5 +40,21 @@ public class SetGateway {
         }, keyHolder);
 
         return keyHolder.getKey().intValue();
+    }
+
+    public List<Set> allSets() {
+        return jdbcTemplate.query("SELECT * FROM sets", (rs, rowNum) -> {
+            Set set =  new Set();
+
+            set.setSetId(rs.getLong("set_id"));
+            set.setExerciseId(rs.getLong("exercise_id"));
+            set.setExerciseId(rs.getLong("user_id"));
+            set.setPerformedOn(rs.getDate("performed_on"));
+            set.setWeight(rs.getDouble("weight"));
+            set.setRepetitions(rs.getInt("repetitions"));
+            set.setEstimated1Rm(rs.getDouble("estimated_1rm"));
+
+            return set;
+        });
     }
 }
