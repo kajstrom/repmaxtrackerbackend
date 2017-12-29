@@ -77,6 +77,7 @@ public class SetTest extends ApiTest {
 
         assertThat(responseEntity.getStatusCode().value()).isEqualTo(404);
         assertThat(error.getErrorCode()).isEqualTo(1);
+        assertThat(error.getErrorMessage()).isEqualToIgnoringCase("No set found with id: 1");
     }
 
     private URI makeSetAddRequest(long exerciseId, long userId, Date performedOn, Double weight, Integer reperations) {

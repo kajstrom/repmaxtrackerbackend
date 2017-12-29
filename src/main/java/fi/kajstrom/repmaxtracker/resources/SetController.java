@@ -71,7 +71,7 @@ public class SetController {
         Set set = setService.getSet(setId);
 
         if (set == null) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(String.format("No set found with id: %s", setId));
         }
 
         return setToSetResource(set);
