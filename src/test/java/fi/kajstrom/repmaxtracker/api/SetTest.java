@@ -1,5 +1,6 @@
 package fi.kajstrom.repmaxtracker.api;
 
+import fi.kajstrom.repmaxtracker.resources.ErrorResource;
 import fi.kajstrom.repmaxtracker.resources.SetResource;
 import fi.kajstrom.repmaxtracker.resources.SetAddResource;
 import org.junit.Test;
@@ -49,6 +50,33 @@ public class SetTest extends ApiTest {
 
         assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
         assertThat(sets).hasSize(2);
+    }
+
+    @Test
+    public void getSet() throws Exception {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2017);
+        cal.set(Calendar.MONTH, Calendar.DECEMBER);
+        cal.set(Calendar.DAY_OF_MONTH, 29);
+        Date performedOn = cal.getTime();
+
+        makeSetAddRequest(1, 1, performedOn, 100.0, 6);
+
+        ResponseEntity<SetResource> responseEntity = restTemplate.getForEntity(makeUrl("/sets/1"), SetResource.class);
+        SetResource set = responseEntity.getBody();
+
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
+        assertThat(set.getExerciseId()).isEqualTo(1);
+    }
+
+    @Test
+    public void getSetWithInvalidSetIdRespondsWith404() throws Exception {
+        ResponseEntity<ErrorResource> responseEntity = restTemplate.getForEntity(makeUrl("/sets/1"), ErrorResource.class);
+
+        ErrorResource error = responseEntity.getBody();
+
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(404);
+        assertThat(error.getErrorCode()).isEqualTo(1);
     }
 
     private URI makeSetAddRequest(long exerciseId, long userId, Date performedOn, Double weight, Integer reperations) {

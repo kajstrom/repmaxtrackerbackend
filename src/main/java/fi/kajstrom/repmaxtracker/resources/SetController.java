@@ -1,6 +1,7 @@
 package fi.kajstrom.repmaxtracker.resources;
 
 
+import fi.kajstrom.repmaxtracker.domain.Set;
 import fi.kajstrom.repmaxtracker.domain.SetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,5 +62,30 @@ public class SetController {
                     );
                 })
                 .collect(Collectors.toList());
+    }
+
+    @RequestMapping("/{setId}")
+    public @ResponseBody SetResource getSet(@PathVariable(value = "setId") String reqSetId) throws ResourceNotFoundException {
+        long setId = Long.parseLong(reqSetId);
+
+        Set set = setService.getSet(setId);
+
+        if (set == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        return setToSetResource(set);
+    }
+
+    private SetResource setToSetResource(Set set) {
+        return new SetResource(
+                set.getSetId(),
+                set.getExerciseId(),
+                set.getUserId(),
+                set.getPerformedOn(),
+                set.getWeight(),
+                set.getRepetitions(),
+                set.getEstimated1Rm()
+        );
     }
 }

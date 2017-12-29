@@ -5,9 +5,9 @@
 
 - GET /exercises returns list of exercise types
 - GET /sets returns list of sets (For all user ids currently)
+- GET /sets/{id} Returns a single set.
 - POST /sets adds a new set
 
 ## TODO
 
-- Add endpoint GET /sets/{id} for retrieving a specific set.
 - Add endpoint GET /user/{id}/sets for retrieving sets by user id.

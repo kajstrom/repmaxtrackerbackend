@@ -2,6 +2,7 @@ package fi.kajstrom.repmaxtracker.infrastructure.database;
 
 import fi.kajstrom.repmaxtracker.domain.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -56,5 +57,28 @@ public class SetGateway {
 
             return set;
         });
+    }
+
+    public Set getSet(long setId) {
+        try {
+            return (Set) jdbcTemplate.queryForObject("SELECT * FROM sets WHERE set_id = ?",
+                    new Object[]{setId},
+                    (rs, rowNum) -> {
+                        Set set = new Set();
+
+                        set.setSetId(rs.getLong("set_id"));
+                        set.setExerciseId(rs.getLong("exercise_id"));
+                        set.setExerciseId(rs.getLong("user_id"));
+                        set.setPerformedOn(rs.getDate("performed_on"));
+                        set.setWeight(rs.getDouble("weight"));
+                        set.setRepetitions(rs.getInt("repetitions"));
+                        set.setEstimated1Rm(rs.getDouble("estimated_1rm"));
+
+                        return set;
+                    });
+        } catch (EmptyResultDataAccessException e) {
+            //No result found with given set id.
+            return null;
+        }
     }
 }

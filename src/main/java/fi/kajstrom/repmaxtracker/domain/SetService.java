@@ -35,6 +35,10 @@ public class SetService {
         return setGateway.allSets();
     }
 
+    public Set getSet(long setId) {
+        return setGateway.getSet(setId);
+    }
+
     private Double calculate1Rm(Double weight, Integer repetitions) {
         if (repetitions.equals(1)) {
             return weight;
