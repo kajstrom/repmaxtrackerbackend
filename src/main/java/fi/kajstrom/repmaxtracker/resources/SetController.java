@@ -50,17 +50,7 @@ public class SetController {
     public @ResponseBody List<SetResource> getSets() {
         return setService.allSets()
                 .stream()
-                .map((set) -> {
-                    return new SetResource(
-                            set.getSetId(),
-                            set.getExerciseId(),
-                            set.getUserId(),
-                            set.getPerformedOn(),
-                            set.getWeight(),
-                            set.getRepetitions(),
-                            set.getEstimated1Rm()
-                    );
-                })
+                .map(SetResource::from)
                 .collect(Collectors.toList());
     }
 
@@ -74,18 +64,6 @@ public class SetController {
             throw new ResourceNotFoundException(String.format("No set found with id: %s", setId));
         }
 
-        return setToSetResource(set);
-    }
-
-    private SetResource setToSetResource(Set set) {
-        return new SetResource(
-                set.getSetId(),
-                set.getExerciseId(),
-                set.getUserId(),
-                set.getPerformedOn(),
-                set.getWeight(),
-                set.getRepetitions(),
-                set.getEstimated1Rm()
-        );
+        return SetResource.from(set);
     }
 }

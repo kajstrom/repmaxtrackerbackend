@@ -20,17 +20,7 @@ public class UserSetsController {
 
         return setService.getUserSets(userId)
                 .stream()
-                .map((Set set) -> {
-                    return new SetResource(
-                            set.getSetId(),
-                            set.getExerciseId(),
-                            set.getUserId(),
-                            set.getPerformedOn(),
-                            set.getWeight(),
-                            set.getRepetitions(),
-                            set.getEstimated1Rm()
-                    );
-                })
+                .map(SetResource::from)
                 .collect(Collectors.toList());
     }
 }

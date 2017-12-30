@@ -11,5 +11,4 @@
 
 ## TODO
 
-- Implement a static factory method in SetResource for creating an instance from a Set.
 - Add error handling for attempting to retrieve a non-existent user's sets.

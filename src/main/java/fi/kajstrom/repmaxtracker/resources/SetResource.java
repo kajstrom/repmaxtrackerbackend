@@ -1,5 +1,8 @@
 package fi.kajstrom.repmaxtracker.resources;
 
+import fi.kajstrom.repmaxtracker.domain.Set;
+
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class SetResource {
@@ -10,6 +13,19 @@ public class SetResource {
     private final Double weight;
     private final Integer repetitions;
     private final Double estimated1Rm;
+
+    @NotNull
+    public static SetResource from(Set set) {
+        return new SetResource(
+                set.getSetId(),
+                set.getExerciseId(),
+                set.getUserId(),
+                set.getPerformedOn(),
+                set.getWeight(),
+                set.getRepetitions(),
+                set.getEstimated1Rm()
+        );
+    }
 
     public SetResource(long setId, long exerciseId, long userId, Date performedOn, Double weight, Integer repetitions, Double estimated1Rm) {
         this.setId = setId;
