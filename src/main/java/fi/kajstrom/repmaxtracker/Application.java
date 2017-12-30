@@ -35,6 +35,16 @@ public class Application implements CommandLineRunner {
         jdbcTemplate.execute("INSERT INTO exercises(name) VALUES('Back Squat')");
         jdbcTemplate.execute("INSERT INTO exercises(name) VALUES('Bench Press')");
 
+        jdbcTemplate.execute("DROP TABLE users IF EXISTS");
+        jdbcTemplate.execute("CREATE TABLE users (" +
+            "user_id IDENTITY," +
+            "firstname VARCHAR(200)," +
+            "lastname VARCHAR(200)," +
+            ")");
+
+        jdbcTemplate.execute("INSERT INTO users(firstname, lastname) VALUES('Kaj', 'Ström')");
+        jdbcTemplate.execute("INSERT INTO users(firstname, lastname) VALUES('Ville', 'Viklund')");
+
         jdbcTemplate.execute("DROP TABLE sets IF EXISTS");
         jdbcTemplate.execute("CREATE TABLE sets(" +
             "set_id IDENTITY," +
@@ -44,6 +54,7 @@ public class Application implements CommandLineRunner {
             "weight DOUBLE NOT NULL," +
             "repetitions TINYINT NOT NULL, " +
             "estimated_1rm DOUBLE NOT NULL," +
+            "FOREIGN KEY(user_id) REFERENCES users(user_id)," +
             "FOREIGN KEY(exercise_id) REFERENCES exercises(exercise_id))");
     }
 
