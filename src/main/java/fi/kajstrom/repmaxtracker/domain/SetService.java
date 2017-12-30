@@ -35,6 +35,10 @@ public class SetService {
         return setGateway.allSets();
     }
 
+    public List<Set> getUserSets(long userId) {
+        return setGateway.getUserSets(userId);
+    }
+
     public Set getSet(long setId) {
         return setGateway.getSet(setId);
     }

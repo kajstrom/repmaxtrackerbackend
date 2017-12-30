@@ -79,17 +79,4 @@ public class SetTest extends ApiTest {
         assertThat(error.getErrorCode()).isEqualTo(1);
         assertThat(error.getErrorMessage()).isEqualToIgnoringCase("No set found with id: 1");
     }
-
-    private URI makeSetAddRequest(long exerciseId, long userId, Date performedOn, Double weight, Integer reperations) {
-        SetAddResource set = new SetAddResource(
-                exerciseId,
-                userId,
-                performedOn,
-                weight,
-                reperations
-        );
-
-        HttpEntity<SetAddResource> request = new HttpEntity<>(set);
-        return restTemplate.postForLocation(makeUrl("/sets"), request);
-    }
 }

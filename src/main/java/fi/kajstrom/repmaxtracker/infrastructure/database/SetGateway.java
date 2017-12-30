@@ -59,6 +59,24 @@ public class SetGateway {
         });
     }
 
+    public List<Set> getUserSets(long userId) {
+        final String sql = "SELECT * FROM sets WHERE user_id = ? ORDER BY performed_on ASC";
+
+        return jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
+            Set set = new Set();
+
+            set.setSetId(rs.getLong("set_id"));
+            set.setExerciseId(rs.getLong("exercise_id"));
+            set.setExerciseId(rs.getLong("user_id"));
+            set.setPerformedOn(rs.getDate("performed_on"));
+            set.setWeight(rs.getDouble("weight"));
+            set.setRepetitions(rs.getInt("repetitions"));
+            set.setEstimated1Rm(rs.getDouble("estimated_1rm"));
+
+            return set;
+        });
+    }
+
     public Set getSet(long setId) {
         try {
             return (Set) jdbcTemplate.queryForObject("SELECT * FROM sets WHERE set_id = ?",
