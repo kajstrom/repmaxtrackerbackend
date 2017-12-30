@@ -11,6 +11,5 @@
 
 ## TODO
 
-- Separate Set mapping to a RowMapper class.
 - Implement a static factory method in SetResource for creating an instance from a Set.
 - Add error handling for attempting to retrieve a non-existent user's sets.

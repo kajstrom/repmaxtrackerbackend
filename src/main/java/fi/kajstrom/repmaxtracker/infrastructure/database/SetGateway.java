@@ -1,6 +1,7 @@
 package fi.kajstrom.repmaxtracker.infrastructure.database;
 
 import fi.kajstrom.repmaxtracker.domain.Set;
+import fi.kajstrom.repmaxtracker.infrastructure.database.rowmapper.SetRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,10 +16,12 @@ import java.util.List;
 @Component("setGateway")
 public class SetGateway {
     private JdbcTemplate jdbcTemplate;
+    private SetRowMapper setRowMapper;
 
     @Autowired
     public SetGateway(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.setRowMapper = new SetRowMapper();
     }
 
     public Integer addSet(Set set) {
@@ -44,56 +47,20 @@ public class SetGateway {
     }
 
     public List<Set> allSets() {
-        return jdbcTemplate.query("SELECT * FROM sets", (rs, rowNum) -> {
-            Set set =  new Set();
-
-            set.setSetId(rs.getLong("set_id"));
-            set.setExerciseId(rs.getLong("exercise_id"));
-            set.setExerciseId(rs.getLong("user_id"));
-            set.setPerformedOn(rs.getDate("performed_on"));
-            set.setWeight(rs.getDouble("weight"));
-            set.setRepetitions(rs.getInt("repetitions"));
-            set.setEstimated1Rm(rs.getDouble("estimated_1rm"));
-
-            return set;
-        });
+        return jdbcTemplate.query("SELECT * FROM sets", setRowMapper);
     }
 
     public List<Set> getUserSets(long userId) {
         final String sql = "SELECT * FROM sets WHERE user_id = ? ORDER BY performed_on ASC";
 
-        return jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
-            Set set = new Set();
-
-            set.setSetId(rs.getLong("set_id"));
-            set.setExerciseId(rs.getLong("exercise_id"));
-            set.setExerciseId(rs.getLong("user_id"));
-            set.setPerformedOn(rs.getDate("performed_on"));
-            set.setWeight(rs.getDouble("weight"));
-            set.setRepetitions(rs.getInt("repetitions"));
-            set.setEstimated1Rm(rs.getDouble("estimated_1rm"));
-
-            return set;
-        });
+        return jdbcTemplate.query(sql, new Object[]{userId}, setRowMapper);
     }
 
     public Set getSet(long setId) {
         try {
             return (Set) jdbcTemplate.queryForObject("SELECT * FROM sets WHERE set_id = ?",
                     new Object[]{setId},
-                    (rs, rowNum) -> {
-                        Set set = new Set();
-
-                        set.setSetId(rs.getLong("set_id"));
-                        set.setExerciseId(rs.getLong("exercise_id"));
-                        set.setExerciseId(rs.getLong("user_id"));
-                        set.setPerformedOn(rs.getDate("performed_on"));
-                        set.setWeight(rs.getDouble("weight"));
-                        set.setRepetitions(rs.getInt("repetitions"));
-                        set.setEstimated1Rm(rs.getDouble("estimated_1rm"));
-
-                        return set;
-                    });
+                    setRowMapper);
         } catch (EmptyResultDataAccessException e) {
             //No result found with given set id.
             return null;
