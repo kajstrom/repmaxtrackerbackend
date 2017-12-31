@@ -40,9 +40,7 @@ public class SetService {
     }
 
     public List<Set> getUserSets(long userId) throws UserNotFoundException{
-        if (userGateway.userExists(userId) == false) {
-            throw new UserNotFoundException(String.format("No user found with user id: %s.", userId));
-        }
+        guardAgainstMissingUsers(userId);
 
         return setGateway.getUserSets(userId);
     }
@@ -51,11 +49,23 @@ public class SetService {
         return setGateway.getSet(setId);
     }
 
+    public Boolean deleteUserSet(long userId, long setId) throws UserNotFoundException {
+        guardAgainstMissingUsers(userId);
+
+        return setGateway.deleteUserSet(userId, setId);
+    }
+
     private Double calculate1Rm(Double weight, Integer repetitions) {
         if (repetitions.equals(1)) {
             return weight;
         }
 
         return (weight * repetitions * 0.0333) + weight;
+    }
+
+    private void guardAgainstMissingUsers(long userId) throws UserNotFoundException {
+        if (userGateway.userExists(userId) == false) {
+            throw new UserNotFoundException(String.format("No user found with user id: %s.", userId));
+        }
     }
 }

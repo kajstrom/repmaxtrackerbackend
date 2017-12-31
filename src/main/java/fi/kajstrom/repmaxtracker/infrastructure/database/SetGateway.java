@@ -66,4 +66,13 @@ public class SetGateway {
             return null;
         }
     }
+
+    public Boolean deleteUserSet(long userId, long setId) {
+        final String sql = "DELETE FROM sets WHERE user_id = ? AND set_id = ?";
+        Object[] params = new Object[] {userId, setId};
+
+        int deleteCount = jdbcTemplate.update(sql, params);
+
+        return deleteCount == 1;
+    }
 }

@@ -8,7 +8,9 @@
 - GET /sets/{id} Returns a single set.
 - POST /sets adds a new set
 - GET /users/{id}/sets returns list of a user's sets.
+- DELETE /users/{user_id}/sets/{set_id} delete's a user's set.
 
 ## TODO
 
-- Deleting of users sets DELETE /user/{id}/sets/{id}.
+- Authentication.
+- Support for pagination of sets.

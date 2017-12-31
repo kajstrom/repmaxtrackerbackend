@@ -5,6 +5,7 @@ import fi.kajstrom.repmaxtracker.resources.SetResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -41,6 +42,40 @@ public class UserSetsTest extends ApiTest {
     @Test
     public void getUserSetsShouldReturnBadRequestWithErrorMessageWhenAttemptingToRetrieveSetsOfANonExistingUser() {
         ResponseEntity<ErrorResource> responseEntity = restTemplate.getForEntity(makeUrl("/users/9/sets"), ErrorResource.class);
+        ErrorResource error = responseEntity.getBody();
+
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(400);
+        assertThat(error.getErrorCode()).isEqualTo(2);
+    }
+
+    @Test
+    public void deleteUserSetShouldReturn200OkWhenDeletingAnExistingSet() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2017);
+        cal.set(Calendar.MONTH, Calendar.DECEMBER);
+        cal.set(Calendar.DAY_OF_MONTH, 30);
+        Date performedOn = cal.getTime();
+
+        makeSetAddRequest(1, 2, performedOn, 100.0, 6);
+
+        ResponseEntity<Object> responseEntity = restTemplate.exchange(
+                makeUrl("/users/2/sets/1"),
+                HttpMethod.DELETE,
+                null,
+                Object.class
+        );
+
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
+    }
+
+    @Test
+    public void deleteUserSetShouldReturnBadRequestAndErrorMessageWhenAttemptingToDeleteASetOfNonExistingUser() {
+        ResponseEntity<ErrorResource> responseEntity = restTemplate.exchange(
+                makeUrl("/users/9/sets/5"),
+                HttpMethod.DELETE,
+                null,
+                ErrorResource.class
+        );
         ErrorResource error = responseEntity.getBody();
 
         assertThat(responseEntity.getStatusCode().value()).isEqualTo(400);
