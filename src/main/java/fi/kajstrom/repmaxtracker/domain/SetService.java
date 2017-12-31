@@ -1,6 +1,8 @@
 package fi.kajstrom.repmaxtracker.domain;
 
+import fi.kajstrom.repmaxtracker.domain.exception.UserNotFoundException;
 import fi.kajstrom.repmaxtracker.infrastructure.database.SetGateway;
+import fi.kajstrom.repmaxtracker.infrastructure.database.UserGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,10 +13,12 @@ import java.util.List;
 public class SetService {
 
     private SetGateway setGateway;
+    private UserGateway userGateway;
 
     @Autowired
-    public SetService(SetGateway setGateway) {
+    public SetService(SetGateway setGateway, UserGateway userGateway) {
         this.setGateway = setGateway;
+        this.userGateway = userGateway;
     }
 
     public Integer addSet(long exerciseId, long userId, Date performedOn, Double weight, Integer repetitions) {
@@ -35,7 +39,11 @@ public class SetService {
         return setGateway.allSets();
     }
 
-    public List<Set> getUserSets(long userId) {
+    public List<Set> getUserSets(long userId) throws UserNotFoundException{
+        if (userGateway.userExists(userId) == false) {
+            throw new UserNotFoundException(String.format("No user found with user id: %s.", userId));
+        }
+
         return setGateway.getUserSets(userId);
     }
 

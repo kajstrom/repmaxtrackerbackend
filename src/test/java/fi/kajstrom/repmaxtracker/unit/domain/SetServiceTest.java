@@ -3,6 +3,7 @@ package fi.kajstrom.repmaxtracker.unit.domain;
 import fi.kajstrom.repmaxtracker.domain.Set;
 import fi.kajstrom.repmaxtracker.domain.SetService;
 import fi.kajstrom.repmaxtracker.infrastructure.database.SetGateway;
+import fi.kajstrom.repmaxtracker.infrastructure.database.UserGateway;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -33,7 +34,8 @@ public class SetServiceTest {
         cal.set(Calendar.DAY_OF_MONTH, 23);
 
         SetGateway setGateway = mock(SetGateway.class);
-        SetService setService = new SetService(setGateway);
+        UserGateway userGateway = mock(UserGateway.class);
+        SetService setService = new SetService(setGateway, userGateway);
 
         setService.addSet(1, 1, cal.getTime(), 100.0, 5);
 
@@ -52,7 +54,8 @@ public class SetServiceTest {
         cal.set(Calendar.DAY_OF_MONTH, 23);
 
         SetGateway setGateway = mock(SetGateway.class);
-        SetService setService = new SetService(setGateway);
+        UserGateway userGateway = mock(UserGateway.class);
+        SetService setService = new SetService(setGateway, userGateway);
 
         setService.addSet(1, 1, cal.getTime(), 107.5, 5);
 
@@ -71,7 +74,8 @@ public class SetServiceTest {
         cal.set(Calendar.DAY_OF_MONTH, 23);
 
         SetGateway setGateway = mock(SetGateway.class);
-        SetService setService = new SetService(setGateway);
+        UserGateway userGateway = mock(UserGateway.class);
+        SetService setService = new SetService(setGateway, userGateway);
 
         setService.addSet(1, 1, cal.getTime(), 115.0, 1);
 

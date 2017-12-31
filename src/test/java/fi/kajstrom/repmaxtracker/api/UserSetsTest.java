@@ -1,5 +1,6 @@
 package fi.kajstrom.repmaxtracker.api;
 
+import fi.kajstrom.repmaxtracker.resources.ErrorResource;
 import fi.kajstrom.repmaxtracker.resources.SetResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,5 +36,14 @@ public class UserSetsTest extends ApiTest {
 
         assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
         assertThat(sets).hasSize(2);
+    }
+
+    @Test
+    public void getUserSetsShouldReturnBadRequestWithErrorMessageWhenAttemptingToRetrieveSetsOfANonExistingUser() {
+        ResponseEntity<ErrorResource> responseEntity = restTemplate.getForEntity(makeUrl("/users/9/sets"), ErrorResource.class);
+        ErrorResource error = responseEntity.getBody();
+
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(400);
+        assertThat(error.getErrorCode()).isEqualTo(2);
     }
 }

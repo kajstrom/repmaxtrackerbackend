@@ -15,7 +15,7 @@ public class UserSetsController {
     private SetService setService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody List<SetResource> getUserSets(@PathVariable(value="userId") String reqUserId) {
+    public @ResponseBody List<SetResource> getUserSets(@PathVariable(value="userId") String reqUserId) throws Exception {
         Long userId = Long.parseLong(reqUserId);
 
         return setService.getUserSets(userId)

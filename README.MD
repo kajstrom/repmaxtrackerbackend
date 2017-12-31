@@ -11,5 +11,4 @@
 
 ## TODO
 
-- Add error handling for attempting to retrieve a non-existent user's information.
 - Deleting of users sets DELETE /user/{id}/sets/{id}.
